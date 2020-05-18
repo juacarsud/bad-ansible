@@ -89,6 +89,11 @@
   become: true
 
   tasks:
+  - name: create directories
+    file:
+      path: /usr/share/tomcat/webapps/ansible
+      state: directory
+
   - name: copy static index.html to tomcat webapps/ansible/index.html
     template:
       src: index.html.app1
@@ -100,10 +105,15 @@
   become: true
 
   tasks:
+  - name: create directories
+    file:
+      path: /usr/share/tomcat/webapps/ansible
+      state: directory
   - name: copy static index.html to tomcat webapps/ansible/index.html
     template:
       src: index.html.app2
       dest: /usr/share/tomcat/webapps/ansible/index.html
+      force: yes
 
 - name: deploy postgres
   hosts: apps
@@ -122,13 +132,18 @@
     service:
       name: postgresql
       enabled: yes
-  - name: tell user to finish setting up postgres
-    debug:
-      msg: "Either uncomment the postgres setup or manually login and initialize"
 
- # only run the next 2 tasks once!
-#  - name: initilize postgres
-#    command: postgresql-setup initdb
+# only run the next 2 tasks once!
+  - name: check if initdb.log exists
+    stat:
+      path: /var/lib/pgsql/initdb.log
+    register: r_check_initdb
+
+  - name: initilize postgres
+    command: postgresql-setup initdb
+    args:
+      creates: /var/lib/pgsql/initdb.log
+ 
 #  - name: initilize postgres some more
 #    command: chkconfig postgresql on
   - name: start postgres
