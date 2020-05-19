@@ -1,0 +1,17 @@
+---
+# tasks file for roles/fronten
+- name: Install Packages
+  package:
+    name: "{{ frontend_packages }}"
+    state: latest
+
+- name: start service Haproxy
+  service:
+    name: haproxy
+    state: started
+
+- name: Configure HAProxy
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+  notify: restart_haproxy

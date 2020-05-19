@@ -1,0 +1,7 @@
+---
+# handlers file for roles/tomcat
+- name: enable_tomcat
+  service:
+    name: tomcat
+    enabled: yes
+    state: started

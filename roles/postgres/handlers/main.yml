@@ -1,0 +1,6 @@
+---
+# handlers file for roles/postgres
+- name: start_postgres
+  service:
+    name: postgresql
+    state: started

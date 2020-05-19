@@ -1,0 +1,15 @@
+---
+# tasks file for roles/postgres
+- name: Install postgres
+  package:
+    name: postgresql-server
+    state: latest
+- name: enable postgres at boot
+  service:
+    name: postgresql
+    enabled: yes
+- name: initialize postgres
+  command: postgresql-setup initdb
+  args:
+    creates: /var/lib/pgsql/initdb.log
+  notify: start_postgres

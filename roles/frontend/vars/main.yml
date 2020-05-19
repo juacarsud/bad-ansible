@@ -1,0 +1,5 @@
+---
+# vars file for roles/frontend
+frontend_packages:
+- haproxy
+- python2-httpie
