@@ -1,0 +1,7 @@
+---
+# vars file for roles/cleanup
+app_packages:
+- python2-httpie
+- haproxy
+- tomcat
+- postgresql-server

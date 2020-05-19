@@ -1,0 +1,18 @@
+---
+# tasks file for roles/cleanup
+- name: reverse the enabling of sudo without tty for some ansible commnds
+  replace:
+    path: /et/sudoers
+    regexp: 'Defaults\s*!requiretty'
+    replace: '^Defaults requiretty'
+    backup: yes
+
+- name: remove the repo file
+  file:
+    state: absent
+    path: /etc/yum.repos.d/open_three-app.repo
+
+- name: Remove base tools and three tier app packages
+  packages:
+    name: "{{ app_packages }}"
+    state: absent
